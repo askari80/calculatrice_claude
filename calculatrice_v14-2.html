@@ -6392,7 +6392,8 @@
                         comment:String(r.COMMENTAIRE||'').trim(),
                         vol26:pN(r.Volume_Produit_2026_M3),
                         eco26:pN(r['Economie_R\u00e9el_2026']||r['Economie_Reel_2026']),
-                        gainMax:pN(r['Gain_(pertes)_estim\u00e9e_maxi']||r['Gain_(pertes)_estimee_maxi'])
+                        gainMax:pN(r['Gain_(pertes)_estim\u00e9e_maxi']||r['Gain_(pertes)_estimee_maxi']),
+                        numVersion:String(r['Num_Version']||r['N° Version']||r['N°Version']||r['Numero_version']||r['Numéro_version']||r['num_version']||r['N']||'').trim()
                     };
                 }).filter(function(r){ return r.code&&r.centrale; });
 
@@ -6954,7 +6955,7 @@
 
         function t6rvTable(d){
             var COLS=[
-                {k:'_d',l:'',a:'center'},{k:'code',l:'Code',a:'left'},{k:'desig',l:'Désignation',a:'left'},
+                {k:'_d',l:'',a:'center'},{k:'code',l:'Code',a:'left'},{k:'numVersion',l:'N° Version',a:'left'},{k:'desig',l:'Désignation',a:'left'},
                 {k:'famille',l:'Famille',a:'left'},{k:'centrale',l:'Centrale',a:'left'},{k:'date',l:'Date',a:'left'},
                 {k:'marge',l:'Marge',a:'right'},{k:'coutRef',l:'Coût Réf.',a:'right'},{k:'coutOpt',l:'Coût Opt.',a:'right'},
                 {k:'vol26',l:'Vol. optim.',a:'right'},{k:'eco26',l:'Éco. 2026',a:'right'},{k:'comment',l:'Commentaire',a:'left'}
@@ -6996,7 +6997,7 @@
                 return row+'</tr>';
             }).join('');
             var si=gid('t6s_'+T6_SORT.col); if(si) si.textContent=T6_SORT.dir===-1?' ↓':' ↑';
-            if(sorted.length===0) tb.innerHTML='<tr><td colspan="12" style="padding:40px;text-align:center;color:#94a3b8;">Aucune donnée</td></tr>';
+            if(sorted.length===0) tb.innerHTML='<tr><td colspan="13" style="padding:40px;text-align:center;color:#94a3b8;">Aucune donnée</td></tr>';
         }
 
         window.t6Sort=function(c){
@@ -7077,8 +7078,8 @@
         window.t6ExportCSV=function(){
             var d=t6GetFiltered();
             if(!d.length){if(typeof showToast==='function')showToast('Aucune donnée','error');return;}
-            var hd=['Code','Designation','Famille','Centrale','Date','Marge_m3','Cout_Ref','Cout_Opt','Vol_2026_m3','Eco_2026_EUR','Commentaire'];
-            var rows=d.map(function(r){return[r.code,'"'+r.desig+'"',r.famille,r.centrale,r.date,r.marge.toFixed(2),r.coutRef||'-',r.coutOpt||'-',r.vol26,Math.round(r.eco26),'"'+(r.comment||'')+'"'];});
+            var hd=['Code','N° Version','Designation','Famille','Centrale','Date','Marge_m3','Cout_Ref','Cout_Opt','Vol_2026_m3','Eco_2026_EUR','Commentaire'];
+            var rows=d.map(function(r){return[r.code,r.numVersion||'','"'+r.desig+'"',r.famille,r.centrale,r.date,r.marge.toFixed(2),r.coutRef||'-',r.coutOpt||'-',r.vol26,Math.round(r.eco26),'"'+(r.comment||'')+'"'];});
             var csv=[hd].concat(rows).map(function(r){return r.join(';');}).join('\n');
             var blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
             var a=document.createElement('a');a.href=URL.createObjectURL(blob);
