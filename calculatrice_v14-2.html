@@ -6393,7 +6393,7 @@
                         vol26:pN(r.Volume_Produit_2026_M3),
                         eco26:pN(r['Economie_R\u00e9el_2026']||r['Economie_Reel_2026']),
                         gainMax:pN(r['Gain_(pertes)_estim\u00e9e_maxi']||r['Gain_(pertes)_estimee_maxi']),
-                        numVersion:String(r['Num_Version']||r['N° Version']||r['N°Version']||r['Numero_version']||r['Numéro_version']||r['num_version']||r['N']||'').trim()
+                        numVersion:String(r['Version_Formule']||r['version_formule']||'').trim()
                     };
                 }).filter(function(r){ return r.code&&r.centrale; });
 
